@@ -84,4 +84,4 @@ The structure of the application (pages) is as follows (information between ``()
 ```
 
 ## Contact
-Created by [@abre0101](https://github.com/abre0101) - feel free to contact me through filipa.af.martins@gmail.com.
+Created by [@abre0101](https://github.com/abre0101) - feel free to contact me through abrahamworku10a@gmail.com.
