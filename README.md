@@ -1,5 +1,5 @@
 # tournament-manager
-Web platform for creation and management of football tournaments. The system is capable of automatic generation and schedule of tournament games. Developed within the scope of Databases course from University of Coimbra.
+Web platform for creation and management of football tournaments. The system is capable of automatic generation and schedule of tournament games. Developed within the scope of php course from Debremarkos University.
 
 ## Table of Contents
 - [Getting Started](#getting-started)
