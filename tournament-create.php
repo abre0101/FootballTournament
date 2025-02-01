@@ -19,7 +19,7 @@
 	$tournamentnameErr =  $tournamentstartErr = $tournamentendErr =  $checkboxErr = $timeErr = $fieldErr = "";
 	$tournamentname = $tournamentstart = $tournamentend = "";
 	$weekday = array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
-	$weekdayPT = array("Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo");
+	$weekdayEN = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
 	$nRepresentation = array(1, 2, 3, 4, 5, 6, 0); //Numeric representation of the day of the week
 	$disabled = array(); 
 	$day = array();
@@ -43,19 +43,19 @@
 		$tournamentend = test_input($_POST["tournamentend"]);
 
 		if (empty($_POST["tournamentname"])) {
-			$tournamentnameErr = "Nome do torneio obrigatório.";
+			$tournamentnameErr = "Tournament name is required.";
 			$error = true;
 		}
 		if (empty($_POST["tournamentstart"])) {
-			$tournamentstartErr = "Data de inicio obrigatória.";
+			$tournamentstartErr = "Start date is required.";
 			$error = true;
 		}
 		if (empty($_POST["tournamentend"])) {
-			$tournamentendErr = "Data de fim obrigatória.";
+			$tournamentendErr = "End date is required.";
 			$error = true;
 		} 
 		if($tournamentstart != "" and $tournamentend != "" and $tournamentend <= $tournamentstart){
-			$tournamentendErr = "Data de fim deve ser superior à data de inicio.";
+			$tournamentendErr = "End date must be after the start date.";
 			$error = true;
 		}
 		
@@ -66,7 +66,7 @@
 		}
 
 		if(!$daySelected){
-			$checkboxErr = "Obrigatório selecionar pelo menos um dia.";
+			$checkboxErr = "At least one day must be selected.";
 			$error = true;
 		}
 		else{ //if at least one day is selected
@@ -77,11 +77,11 @@
 					$end[$i] = test_input($_POST["end".($i+1)]);
 					$field[$i] = test_input($_POST["field".($i+1)]);
 					if ($start[$i] == "" or $end[$i] == "" or $field[$i] == "") {
-						$timeErr = "Obrigatório preencher hora de inicio de fim e campo.";
+						$timeErr = "Start time, end time, and field are required.";
 						$error = true;
 					} 	
 					if($start[$i] != "" and $end[$i] != "" and $end[$i] <= $start[$i]){
-						$timeErr = "Hora de fim deve ser superior à hora de inicio.";
+						$timeErr = "End time must be after the start time.";
 						$error = true;
 					}
 					$disabled[$i] = "";
@@ -104,7 +104,7 @@
 					//START B <= END A
 					$intersection = $connection->query($query);
 					if(mysqli_num_rows($intersection) != 0){
-						$timeErr = "As datas, horas e campo colocados são incompativeis com as de outro torneio. Por favor altere um destes campos.";
+						$timeErr = "The dates, times, and field provided are incompatible with another tournament. Please change one of these fields.";
 						$error = true;
 					} 
 				}
@@ -118,18 +118,18 @@
 
 			if ($connection->query($query) === TRUE) {
 				echo "New tournament created successfully";
-				setUserToManager($tournamentname); //set user that created tournament to manager of that tournament
+				setUser ToManager($tournamentname); //set user that created tournament to manager of that tournament
 				for ($i = 0; $i < 7; $i++){
 					if($day[$i] != ""){
 						$query = sprintf("INSERT INTO futebolamador.slot (`Nome_campo`,`Hora_inicio`,`Hora_fim`,`Dia_semana`, `Numero_dia`)
-						VALUES ('%s','%s','%s','%s','%s');", $field[$i], $start[$i], $end[$i], $weekdayPT[$i], $nRepresentation[$i]);
+						VALUES ('%s','%s','%s','%s','%s');", $field[$i], $start[$i], $end[$i], $weekdayEN[$i], $nRepresentation[$i]);
 						if ($connection->query($query) === TRUE) {
 							echo "New slot created successfully";
 							$slot_id = mysqli_insert_id($connection);
 							$query = sprintf("INSERT INTO futebolamador.slot_torneios (`id_slot`, `Nome_torneio`) 
 							VALUES ('%s','%s');", $slot_id, $tournamentname);
 							if ($connection->query($query) === TRUE) {
-								echo "New slot_torneio created successfully";
+								echo "New slot_tournament created successfully";
 							}
 							else {
 								echo "Error: " . $query . "<br>" . $connection->error;
@@ -172,24 +172,24 @@
 		$query = "SELECT * FROM futebolamador.campos;";
 		$result =  $connection->query($query);
 		$option = 1;
-		echo "<option value=\"\" selected hidden>Opção >></option>;";
+		echo "<option value=\"\" selected hidden>Option >></option>;";
 		while($row = mysqli_fetch_array($result)){
 			echo "  <option value=\"".$row['Nome_campo']."\">
-					Opção ".$option." &nbsp;&nbsp;&nbsp;>&nbsp; ".$row['Nome_campo']."
+					Option ".$option." &nbsp;&nbsp;&nbsp;>&nbsp; ".$row['Nome_campo']."
 					</option>";
 			$option++;
 		}
 	}
 
-	function setUserToManager($tname){
+	function setUser ToManager($tname){
 		global $connection;
 		global $user_id;
 		$query = sprintf("  INSERT INTO futebolamador.gestores_torneio_torneios (`CC`, `Nome_torneio`) 
 							VALUES ('%s','%s');", $user_id, $tname );
 		if ($connection->query($query) === TRUE) {
-			$query = sprintf("	INSERT INTO futebolmador.gestores_torneio(`CC`) VALUES ('%s');", $user_id);
+			$query = sprintf("	INSERT INTO futebolamador.gestores_torneio(`CC`) VALUES ('%s');", $user_id);
 			if ($connection->query($query) === TRUE) {
-				echo "User set to tournament manager.";
+				echo "User  set to tournament manager.";
 			}
 			else {
 				echo "Error: " . $query . "<br>" . $connection->error;
@@ -204,7 +204,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Futebol Amador</title>
+	<title>Amateur Football</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
@@ -222,11 +222,11 @@
 <body>
 	<!-- Header -->
 	<header id="header">
-		<h1><a href="">Futebol Amador</a></h1>
+		<h1><a href="">Amateur Football</a></h1>
 		<nav id="nav">
 			<ul>
-				<li><a href="tournament.php">Torneios</a></li>
-				<li><a href="#">Equipas</a></li>
+				<li><a href="tournament.php">Tournaments</a></li>
+				<li><a href="#">Teams</a></li>
 				<li>
 					<a href="#" class="icon rounded fa-bell"></a>
 				</li>
@@ -237,9 +237,9 @@
 						    <br><a>Filipa Martins</a>
 						</button>
 						<div class="dropdown-content">
-						    <a href="user-profile.php">Ver perfil</a>
-							<a href="user-profile-edit.php">Editar perfil</a>
-							<a href="#">Terminar sessão</a>
+						    <a href="user-profile.php">View Profile</a>
+							<a href="user-profile-edit.php">Edit Profile</a>
+							<a href="#">Log Out</a>
 						</div>
 					</div>
 				</li>
@@ -248,48 +248,48 @@
 	</header>
 
 
-	<!-- Colocar conteudo do ecra -->
+	<!-- Place content on the screen -->
 	<div class="row">
 		<div class="3u">
 			<section class="sidebar">
 				<ul class="default" style="padding-left: 40px;">
-					<li><a href="tournament-create.php"><strong style="color:#5c3ab7;">Criar Novo Torneio</a></strong></li>
-					<li><a href="tournament-management.php"><strong>Gestão de Torneios</a></strong></li>
-					<li><a href="field-management.php"><strong>Gestão de Campos</a></strong></li>
-					<li><a href="tournament-list.php"><strong>Listar Torneios</a></strong></li>
+					<li><a href="tournament-create.php"><strong style="color:#5c3ab7;">Create New Tournament</a></strong></li>
+					<li><a href="tournament-management.php"><strong>Tournament Management</a></strong></li>
+					<li><a href="field-management.php"><strong>Field Management</a></strong></li>
+					<li><a href="tournament-list.php"><strong>List Tournaments</a></strong></li>
 				</ul>
 			</section>
 		</div>
 		<div class="9u" style="padding-top: 30px; padding-right: 40px;">
-			<h2>Criar Torneio:</h2>
+			<h2>Create Tournament:</h2>
 			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 				<div>
-					Nome do Torneio:<br>
+					Tournament Name:<br>
 					<input type="text" name="tournamentname" value="<?php echo $tournamentname;?>"><br>
 					<span class="error"><?php echo $tournamentnameErr;?></span>
 				</div>
 				
 				<div class="row">
 					<div>
-						Data de inicio do torneio:<br>
+						Tournament Start Date:<br>
 						<input type="date" name="tournamentstart" value="<?php echo $tournamentstart;?>"><br><br>
 						<span class="error"><?php echo $tournamentstartErr;?></span>
 					</div>
 					<div>
-						Data de fim do torneio:<br>
+						Tournament End Date:<br>
 						<input type="date" name="tournamentend" value="<?php echo $tournamentend;?>"><br><br>
 						<span class="error"><?php echo $tournamentendErr;?></span>
 					</div>
 				</div>
-				Selecionar dias de jogos:<br><br>
+				Select Game Days:<br><br>
 				<div class="row" style="margin-left:0px;">
 					<div style="padding-left:0px; width: 11.8%">
-						<input type="checkbox" name="monday"  value="true" id = "check1" onclick="getTime(1)" <?php if (isset($_POST['monday'])) echo "checked";?>>Segunda-Feira<br><br>
-							Inicio: <input type="time" name="start1" id = "start1" value=
+						<input type="checkbox" name="monday"  value="true" id = "check1" onclick="getTime(1)" <?php if (isset($_POST['monday'])) echo "checked";?>>Monday<br><br>
+							Start: <input type="time" name="start1" id = "start1" value=
 							"<?php echo $start[0];?>" <?php echo $disabled[0];?>><br>
-							Fim: <input type="time" name="end1" style="margin-left: 10px;" id = "end1" value=
+							End: <input type="time" name="end1" style="margin-left: 10px;" id = "end1" value=
 							"<?php echo $end[0];?>" <?php echo $disabled[0];?>><br><br>
-							Campo:<br>
+							Field:<br>
 							<select name="field1" id="field1" <?php echo $disabled[0];?>>
 								<?php
 									fieldsDropdown();
@@ -297,12 +297,12 @@
 							</select>
 					</div>
 					<div style = "width: 14.5%">
-						<input type="checkbox" name="tuesday" value="true" id = "check2" onclick="getTime(2)" <?php if (isset($_POST['tuesday'])) echo "checked";?>>Terça-Feira<br><br>
-							Inicio: <input type="time" name="start2" id = "start2" value=
+						<input type="checkbox" name="tuesday" value="true" id = "check2" onclick="getTime(2)" <?php if (isset($_POST['tuesday'])) echo "checked";?>>Tuesday<br><br>
+							Start: <input type="time" name="start2" id = "start2" value=
 							"<?php echo $start[1];?>" <?php echo $disabled[1];?>><br>
-							Fim: <input type="time" name="end2" style="margin-left: 10px;" id = "end2" value=
+							End: <input type="time" name="end2" style="margin-left: 10px;" id = "end2" value=
 							"<?php echo $end[1];?>" <?php echo $disabled[1];?>><br><br>
-							Campo:<br>
+							Field:<br>
 							<select name="field2" id="field2" <?php echo $disabled[1];?>>
 								<?php
 									fieldsDropdown();
@@ -310,12 +310,12 @@
 							</select>
 					</div>
 					<div style = "width: 14.5%">
-						<input type="checkbox" name="wednesday" value="true" id = "check3" onclick="getTime(3)" <?php if (isset($_POST['wednesday'])) echo "checked";?>>Quarta-Feira<br><br>
-							Inicio: <input type="time" name="start3" id = "start3" value=
+						<input type="checkbox" name="wednesday" value="true" id = "check3" onclick="getTime(3)" <?php if (isset($_POST['wednesday'])) echo "checked";?>>Wednesday<br><br>
+							Start: <input type="time" name="start3" id = "start3" value=
 							"<?php echo $start[2];?>" <?php echo $disabled[2];?>><br>
-							Fim: <input type="time" name="end3" style="margin-left: 10px;" id = "end3" value=
+							End: <input type="time" name="end3" style="margin-left: 10px;" id = "end3" value=
 							"<?php echo $end[2];?>" <?php echo $disabled[2];?>><br><br>
-							Campo:<br>
+							Field:<br>
 							<select name="field3" id="field3" <?php echo $disabled[2];?>>
 								<?php
 									fieldsDropdown();
@@ -323,12 +323,12 @@
 							</select>
 					</div>
 					<div style = "width: 14.5%">
-						<input type="checkbox" name="thursday" value="true" id = "check4" onclick="getTime(4)" <?php if (isset($_POST['thursday'])) echo "checked";?>>Quinta-Feira<br><br>
-							Inicio: <input type="time" name="start4" id = "start4" value=
+						<input type="checkbox" name="thursday" value="true" id = "check4" onclick="getTime(4)" <?php if (isset($_POST['thursday'])) echo "checked";?>>Thursday<br><br>
+							Start: <input type="time" name="start4" id = "start4" value=
 							"<?php echo $start[3];?>" <?php echo $disabled[3];?>><br>
-							Fim: <input type="time" name="end4" style="margin-left: 10px;" id = "end4" value=
+							End: <input type="time" name="end4" style="margin-left: 10px;" id = "end4" value=
 							"<?php echo $end[3];?>" <?php echo $disabled[3];?>><br><br>
-							Campo:<br>
+							Field:<br>
 							<select name="field4" id="field4" <?php echo $disabled[3];?>>
 								<?php
 									fieldsDropdown();
@@ -336,12 +336,12 @@
 							</select>
 					</div>
 					<div style = "width: 14.5%">
-						<input type="checkbox" name="friday" value="true" id = "check5" onclick="getTime(5)" <?php if (isset($_POST['friday'])) echo "checked";?>>Sexta-Feira<br><br>
-							Inicio: <input type="time" name="start5" id = "start5" value=
+						<input type="checkbox" name="friday" value="true" id = "check5" onclick="getTime(5)" <?php if (isset($_POST['friday'])) echo "checked";?>>Friday<br><br>
+							Start: <input type="time" name="start5" id = "start5" value=
 							"<?php echo $start[4];?>" <?php echo $disabled[4];?>><br>
-							Fim: <input type="time" name="end5" style="margin-left: 10px;" id = "end5" value=
+							End: <input type="time" name="end5" style="margin-left: 10px;" id = "end5" value=
 							"<?php echo $end[4];?>" <?php echo $disabled[4];?>><br><br>
-							Campo:<br>
+							Field:<br>
 							<select name="field5" id="field5" <?php echo $disabled[4];?>>
 								<?php
 									fieldsDropdown();
@@ -349,12 +349,12 @@
 							</select>
 					</div>
 					<div style = "width: 14.5%">
-						<input type="checkbox" name="saturday" value="true" id = "check6" onclick="getTime(6)" <?php if (isset($_POST['saturday'])) echo "checked";?>>Sábado<br><br>
-							Inicio: <input type="time" name="start6" id = "start6" value=
+						<input type="checkbox" name="saturday" value="true" id = "check6" onclick="getTime(6)" <?php if (isset($_POST['saturday'])) echo "checked";?>>Saturday<br><br>
+							Start: <input type="time" name="start6" id = "start6" value=
 							"<?php echo $start[5];?>" <?php echo $disabled[5];?>><br>
-							Fim: <input type="time" name="end6" style="margin-left: 10px;" id = "end6" value=
+							End: <input type="time" name="end6" style="margin-left: 10px;" id = "end6" value=
 							"<?php echo $end[5];?>" <?php echo $disabled[5];?>><br><br>
-							Campo:<br>
+							Field:<br>
 							<select name="field6" id="field6" <?php echo $disabled[5];?>>
 								<?php
 									fieldsDropdown();
@@ -362,12 +362,12 @@
 							</select>
 					</div>
 					<div style = "width: 14.5%">
-						<input type="checkbox" name="sunday" value="true" id = "check7" onclick="getTime(7)" <?php if (isset($_POST['sunday'])) echo "checked";?>>Domingo<br><br>
-							Inicio: <input type="time" name="start7" id = "start7" value=
+						<input type="checkbox" name="sunday" value="true" id = "check7" onclick="getTime(7)" <?php if (isset($_POST['sunday'])) echo "checked";?>>Sunday<br><br>
+							Start: <input type="time" name="start7" id = "start7" value=
 							"<?php echo $start[6];?>" <?php echo $disabled[6];?>><br>
-							Fim: <input type="time" name="end7" style="margin-left: 10px;" id = "end7" value=
+							End: <input type="time" name="end7" style="margin-left: 10px;" id = "end7" value=
 							"<?php echo $end[6];?>" <?php echo $disabled[6];?>><br><br>
-							Campo:<br>
+							Field:<br>
 							<select name="field7" id="field7" <?php echo $disabled[6];?>>
 								<?php
 									fieldsDropdown();
@@ -380,8 +380,8 @@
 				</div>
 				<div style="text-align:center">
                     <div style="display:inline-flex;">
-                        <a href="tournament-list.php"><input type="button" style="background-color: rgb(170,170,170);" value="Cancelar"></a><br>
-						<input type="submit" value="Criar"><br>
+                        <a href="tournament-list.php"><input type="button" style="background-color: rgb(170,170,170);" value="Cancel"></a><br>
+						<input type="submit" value="Create"><br>
 					</div>
 				</div>
 			</form>
@@ -419,4 +419,3 @@
 	</div>
 </footer>
 </html>
-
