@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Football Tournament Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=dark123">
+              
 </head>
 <body>
-    <!-- HEADER - VIP BOX -->
     <div class="header">
         <h1><i class="fas fa-trophy"></i> Football Tournament Management System</h1>
         <p>Professional Tournament, Team & Match Management Platform</p>
-        
-        <!-- STATS BAR -->
         <div class="stats-bar">
             <div class="stat-item">
                 <div class="stat-number" id="totalTournaments">0</div>
@@ -34,9 +32,7 @@
         </div>
     </div>
     
-    <!-- MAIN CONTAINER -->
     <div class="container">
-        <!-- NAVIGATION -->
         <div class="nav">
             <button onclick="showSection('dashboard')" class="active">
                 <i class="fas fa-home"></i> Dashboard
@@ -55,7 +51,7 @@
             </button>
         </div>
         
-        <!-- DASHBOARD SECTION -->
+        <!-- Dashboard Section -->
         <div id="dashboard" class="section active">
             <h2><i class="fas fa-home"></i> Dashboard</h2>
             <div id="dashboardContent" class="loading">
@@ -64,7 +60,7 @@
             </div>
         </div>
         
-        <!-- TOURNAMENTS SECTION -->
+        <!-- Tournaments Section -->
         <div id="tournaments" class="section">
             <h2><i class="fas fa-trophy"></i> Tournament Management</h2>
             <div id="tournamentMessage"></div>
@@ -106,7 +102,7 @@
             </table>
         </div>
         
-        <!-- TEAMS SECTION -->
+        <!-- Teams Section -->
         <div id="teams" class="section">
             <h2><i class="fas fa-users"></i> Team Management</h2>
             <div id="teamMessage"></div>
@@ -148,7 +144,7 @@
             </table>
         </div>
         
-        <!-- MATCHES SECTION -->
+        <!-- Matches Section -->
         <div id="matches" class="section">
             <h2><i class="fas fa-futbol"></i> Match Management</h2>
             <div id="matchMessage"></div>
@@ -200,7 +196,7 @@
             </table>
         </div>
         
-        <!-- STANDINGS SECTION -->
+        <!-- Standings Section -->
         <div id="standings" class="section">
             <h2><i class="fas fa-chart-line"></i> League Standings</h2>
             <table id="standingsTable">
@@ -223,18 +219,18 @@
         </div>
     </div>
     
-    <!-- MATCH RESULT MODAL -->
+    <!-- Match Result Modal -->
     <div id="matchResultModal" class="modal">
         <div class="modal-content">
             <h2><i class="fas fa-edit"></i> Update Match Result</h2>
             <div id="modalMatchInfo"></div>
             <div class="form-grid">
                 <div class="form-group">
-                    <label><i class="fas fa-home"></i> Home Score</label>
+                    <label>Home Score</label>
                     <input type="number" id="modalHomeScore" min="0" value="0">
                 </div>
                 <div class="form-group">
-                    <label><i class="fas fa-plane"></i> Away Score</label>
+                    <label>Away Score</label>
                     <input type="number" id="modalAwayScore" min="0" value="0">
                 </div>
             </div>
@@ -249,7 +245,6 @@
         </div>
     </div>
     
-    <!-- JAVASCRIPT -->
     <script src="app.js"></script>
 </body>
 </html>
