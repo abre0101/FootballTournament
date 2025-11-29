@@ -2,6 +2,8 @@
 
 A professional, full-stack web application for managing football tournaments, teams, matches, and player statistics with real-time updates and beautiful UI.
 
+> **Note**: This is a complete rewrite of the original PHP-based tournament manager, now built with Java, MongoDB, and modern web technologies.
+
 ## 🌟 Features
 
 ### Core Functionality
@@ -77,41 +79,49 @@ FootballTournament/
 
 ### Quick Start
 
-1. **Clone/Download the project**
+1. **Clone the repository**
    ```bash
+   git clone https://github.com/abre0101/FootballTournament.git
    cd FootballTournament
    ```
 
-2. **Ensure MongoDB is running**
+2. **Download required JAR files**
+   Place these files in `src/main/webapp/WEB-INF/lib/`:
+   - [mongodb-driver-sync-4.11.1.jar](https://repo1.maven.org/maven2/org/mongodb/mongodb-driver-sync/4.11.1/mongodb-driver-sync-4.11.1.jar)
+   - [mongodb-driver-core-4.11.1.jar](https://repo1.maven.org/maven2/org/mongodb/mongodb-driver-core/4.11.1/mongodb-driver-core-4.11.1.jar)
+   - [bson-4.11.1.jar](https://repo1.maven.org/maven2/org/mongodb/bson/4.11.1/bson-4.11.1.jar)
+   - [gson-2.10.1.jar](https://repo1.maven.org/maven2/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar)
+
+3. **Ensure MongoDB is running**
    ```bash
    # MongoDB should be running on localhost:27017
    # Database name: football_tournament
    ```
 
-3. **Compile the project**
+4. **Compile the project**
    ```bash
    javac -cp "src/main/webapp/WEB-INF/lib/*;C:/Program Files/Apache Software Foundation/Tomcat 9.0/lib/servlet-api.jar" -d build/classes src/main/java/config/*.java src/main/java/model/*.java src/main/java/dao/*.java src/main/java/service/*.java src/main/java/*.java
    ```
 
-4. **Create WAR file**
+5. **Create WAR file**
    ```bash
    cd build/war
    jar -cvf ../FootballTournament.war *
    ```
 
-5. **Deploy to Tomcat**
+6. **Deploy to Tomcat**
    ```bash
    copy build\FootballTournament.war "C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\"
    ```
 
-6. **Start Tomcat**
+7. **Start Tomcat**
    ```bash
    $env:JAVA_HOME="C:\Program Files\Java\jdk-20"
    $env:CATALINA_HOME="C:\Program Files\Apache Software Foundation\Tomcat 9.0"
    & "$env:CATALINA_HOME\bin\catalina.bat" start
    ```
 
-7. **Access the application**
+8. **Access the application**
    ```
    http://localhost:8080/FootballTournament/
    ```
@@ -145,7 +155,10 @@ http://localhost:8080/FootballTournament/api
   - Parameters: `name`, `jerseyNumber`, `position`, `teamId`
 
 #### Matches
+- `GET /matches` - List all matches
 - `GET /matches/{tournamentId}` - Get matches by tournament
+- `POST /match` - Schedule a match
+  - Parameters: `tournamentId`, `homeTeamId`, `awayTeamId`, `homeTeamName`, `awayTeamName`, `venue`, `matchDate`
 - `POST /match/result` - Update match result
   - Parameters: `matchId`, `homeScore`, `awayScore`
 
@@ -169,6 +182,15 @@ fetch('/FootballTournament/api/team', {
     method: 'POST',
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     body: 'name=Manchester United&coach=Erik ten Hag'
+});
+```
+
+### Scheduling a Match
+```javascript
+fetch('/FootballTournament/api/match', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: 'tournamentId=123&homeTeamId=456&awayTeamId=789&homeTeamName=Man+Utd&awayTeamName=Liverpool&venue=Old+Trafford&matchDate=2025-12-15T15:00'
 });
 ```
 
@@ -269,11 +291,15 @@ This project is open source and available for educational purposes.
 
 ## 👨‍💻 Author
 
-Created with ❤️ for football enthusiasts and tournament organizers
+**Abraham Worku**
+- GitHub: [@abre0101](https://github.com/abre0101)
+- Email: abrahamworku10a@gmail.com
+
+Created with ❤️ for football enthusiasts and tournament organizers at Debre Markos University.
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!
+Contributions, issues, and feature requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## 📞 Support
 
