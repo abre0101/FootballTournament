@@ -2,7 +2,6 @@
 
 A professional web-based application for managing football tournaments, teams, matches, and player statistics with real-time updates and beautiful UI.
 
-> **Note**: This is a complete rewrite of the original PHP-based tournament manager, now built with Java, MongoDB, and modern web technologies.
 
 ## 🌟 Features
 
