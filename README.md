@@ -302,7 +302,7 @@ Contributions, issues, and feature requests are welcome! See [CONTRIBUTING.md](C
 
 ## 📞 Support
 
-For support, please open an issue in the repository or contact the development team.
+For support, please open an issue in the repository or contact https://github.com/abre0101 .
 
 ---
 
