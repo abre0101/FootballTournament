@@ -302,7 +302,8 @@ Contributions, issues, and feature requests are welcome! See [CONTRIBUTING.md](C
 
 ## 📞 Support
 
-For support, please open an issue in the repository or contact https://github.com/abre0101 .
+For support, please open an issue in the repository or contact  GitHub: [@abre0101](https://github.com/abre0101)
+- Email: abrahamworku10a@gmail.com
 
 ---
 
