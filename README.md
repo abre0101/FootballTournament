@@ -286,7 +286,7 @@ To change, edit Tomcat's `server.xml`
 
 ## 📝 License
 
-This project is open source and available for educational purposes.
+This project is open source and available for educational purposes and will be improved time to time .
 
 ## 👨‍💻 Author
 
